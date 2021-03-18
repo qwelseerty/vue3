@@ -45,6 +45,12 @@ export default {
       ]
     }
   },
+  provide(){
+    return {
+      title:'123',
+      news:this.news
+    }
+  },
   components: {
     'app-news': AppNews
   },

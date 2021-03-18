@@ -14,12 +14,14 @@
                   @action="mark"
       >Read this news
       </app-button>
+      <app-news-list></app-news-list>
     </div>
   </div>
 </template>
 
 <script>
 import AppButton from "@/components/AppButton";
+import AppNewsList from "@/components/AppNewsList";
 
 export default {
   emits: {
@@ -75,7 +77,8 @@ export default {
 
   },
   components: {
-    AppButton
+    AppButton,
+    AppNewsList
   }
 }
 </script>
