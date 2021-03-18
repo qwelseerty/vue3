@@ -1,79 +1,74 @@
 <template>
   <div class="container pt-1">
     <div class="card">
-      <h2>Today is {{ now }}</h2>
-      <span>Opens: <strong>{{ openRate }}</strong> | Reads : <strong>{{ readRate }}</strong> </span>
+      <async></async>
+      <h2>dinamic async</h2>
+
+      <app-button
+          ref="myBtn"
+          :color="oneColor"
+          @action="active='one'">one
+      </app-button>
+
+      <app-button
+          :color="twoColor"
+          @action="active='two'">two
+      </app-button>
     </div>
 
-    <app-news
-        v-for="item in news"
-        :title="item.title"
-        :key="item.id"
-        :id="item.id"
-        :is-open="item.isOpen"
-        :was-read="item.wasRead"
-        @open-news="openNews"
-        @read-news="readNews"
-        @unmark="unreadNews"
-    ></app-news>
+    <keep-alive>
+      <component :is="componentName"></component>
+    </keep-alive>
 
   </div>
-
 </template>
 
 <script>
-import AppNews from "@/components/AppNews";
+import AppButton from "@/components/AppButton";
+import AppOne from "@/components/AppOne";
+import AppTwo from "@/components/AppTwo";
 
 export default {
   data() {
     return {
-      openRate: 0,
-      readRate: 0,
-      now: new Date().toLocaleDateString(),
-      news: [{
-        title: 'first',
-        id: 1,
-        isOpen: false,
-        wasRead: false
-      },
-        {
-          title: 'second',
-          id: 2,
-          isOpen: false,
-          wasRead: false
-        }
-      ]
+      active: 'one'
     }
   },
-  provide(){
-    return {
-      title:'123',
-      news:this.news
-    }
+  mounted() {
+    // setTimeout(()=>{
+    //   this.componentName = 'new next'
+    // },1500)
+    console.log(this.$refs.myBtn)
   },
+
   components: {
-    'app-news': AppNews
+    AppButton,
+    AppOne,
+    AppTwo
   },
-  methods: {
-    openNews() {
-      this.openRate++
+  computed: {
+    componentName:{
+      get(){ return 'app-' + this.active},
+      set(value){
+        console.log(value)}
+
+    // componentName() {
+    //   return 'app-' + this.active
+      //   if (this.active === 'one') {
+      //     return 'app-one'
+      //   }
+      //   return 'app-two'
     },
-    readNews(id) {
-      const idx = this.news.findIndex(news => news.id === id)
-      this.news[idx].wasRead = true
-      this.readRate++
+    oneColor(){
+      return this.active === 'one'? 'primary' : ''
     },
-    unreadNews(id){
-      const news = this.news.find(news=>news.id===id)
-      news.wasRead = false
-      this.readRate--
+    twoColor(){
+      return  this.active === 'two'? 'primary' : ''
     }
   }
 }
 </script>
 
 <style scoped>
-  h2 {
-    color: darkcyan;
-  }
+
 </style>
