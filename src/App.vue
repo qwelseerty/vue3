@@ -2,7 +2,7 @@
   <div class="container pt-1">
     <div class="card">
       <h2>Today is {{ now }}</h2>
-      <span>Opens: {{openRate}}</span>
+      <span>Opens: <strong>{{ openRate }}</strong> | Reads : <strong>{{ readRate }}</strong> </span>
     </div>
 
     <app-news
@@ -11,7 +11,10 @@
         :key="item.id"
         :id="item.id"
         :is-open="item.isOpen"
-        @open-news = "openNews"
+        :was-read="item.wasRead"
+        @open-news="openNews"
+        @read-news="readNews"
+        @unmark="unreadNews"
     ></app-news>
 
   </div>
@@ -24,17 +27,20 @@ import AppNews from "@/components/AppNews";
 export default {
   data() {
     return {
-      openRate:0,
+      openRate: 0,
+      readRate: 0,
       now: new Date().toLocaleDateString(),
       news: [{
         title: 'first',
         id: 1,
-        isOpen:false
+        isOpen: false,
+        wasRead: false
       },
         {
           title: 'second',
           id: 2,
-          isOpen:false
+          isOpen: false,
+          wasRead: false
         }
       ]
     }
@@ -42,9 +48,19 @@ export default {
   components: {
     'app-news': AppNews
   },
-  methods:{
-    openNews(){
+  methods: {
+    openNews() {
       this.openRate++
+    },
+    readNews(id) {
+      const idx = this.news.findIndex(news => news.id === id)
+      this.news[idx].wasRead = true
+      this.readRate++
+    },
+    unreadNews(id){
+      const news = this.news.find(news=>news.id===id)
+      news.wasRead = false
+      this.readRate--
     }
   }
 }
