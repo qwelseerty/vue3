@@ -1,17 +1,26 @@
 <template>
   <div class="card">
     <h3>{{ title }}</h3>
-    <button class="btn" @click="openz">{{ isNewsOpen ? 'Close' : 'Open' }}</button>
-    <button v-if="wasRead" class="btn danger" @click="$emit('unmark',id)">doesen't read</button>
+    <app-button @action="openz"> {{isNewsOpen ? 'Close' : 'Open'}}</app-button>
+    <app-button v-if="wasRead"
+                color="danger" @action="$emit('unmark',id)"
+    >doesen't read
+    </app-button>
     <div v-if="isNewsOpen">
       <hr/>
       <p>Lorem ipsum dolor sit amet.</p>
-      <button v-if="!wasRead" class="btn primary" @click="mark">Read this news</button>
+      <app-button v-if="!wasRead"
+                  color="primary"
+                  @action="mark"
+      >Read this news
+      </app-button>
     </div>
   </div>
 </template>
 
 <script>
+import AppButton from "@/components/AppButton";
+
 export default {
   emits: {
     'open-news': null,
@@ -64,6 +73,9 @@ export default {
     //   this.$emit('unmark', this.id)
     // }
 
+  },
+  components: {
+    AppButton
   }
 }
 </script>
