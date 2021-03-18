@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <h3>{{ title }}</h3>
-    <button class="btn" @click="isOpen = !isOpen">open</button>
-    <p v-if="isOpen ">Lorem ipsum dolor sit amet.</p>
+    <button class="btn" @click="openz">{{isNewsOpen?'Close':'Open'}}</button>
+    <p v-if="isNewsOpen ">Lorem ipsum dolor sit amet.</p>
   </div>
 </template>
 
@@ -21,14 +21,23 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      validator(value){
+      validator(value) {
         return value === true || value === false
       }
     }
   },
   data() {
     return {
+      isNewsOpen: this.isOpen
       // isOpen: false
+    }
+  },
+  methods: {
+    openz() {
+      this.isNewsOpen = !this.isNewsOpen
+      if (this.isNewsOpen) {
+        this.$emit('open-news',42)
+      }
     }
   }
 }

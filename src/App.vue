@@ -2,6 +2,7 @@
   <div class="container pt-1">
     <div class="card">
       <h2>Today is {{ now }}</h2>
+      <span>Opens: {{openRate}}</span>
     </div>
 
     <app-news
@@ -10,6 +11,7 @@
         :key="item.id"
         :id="item.id"
         :is-open="item.isOpen"
+        @open-news = "openNews"
     ></app-news>
 
   </div>
@@ -22,6 +24,7 @@ import AppNews from "@/components/AppNews";
 export default {
   data() {
     return {
+      openRate:0,
       now: new Date().toLocaleDateString(),
       news: [{
         title: 'first',
@@ -38,6 +41,11 @@ export default {
   },
   components: {
     'app-news': AppNews
+  },
+  methods:{
+    openNews(){
+      this.openRate++
+    }
   }
 }
 </script>
